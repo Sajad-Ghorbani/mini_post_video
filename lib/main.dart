@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_post_video/app/config/routes/app_pages.dart';
 import 'package:mini_post_video/app/core/service/services.dart';
-import 'package:mini_post_video/splash_screen.dart';
 
-void main()async {
+void main() async {
   await initServices();
   runApp(const MyApp());
 }
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          brightness: Brightness.dark,
         useMaterial3: true,
       ),
       getPages: AppPages.pages,
