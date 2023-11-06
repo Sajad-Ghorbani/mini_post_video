@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,140 +67,144 @@ class MainScreen extends StatelessWidget {
                         itemCount: controller.videos.length,
                         itemBuilder: (context, index) {
                           VideoEntity video = controller.videos[index];
-                          return Container(
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              color: Color(0xff23232b),
-                            ),
-                            height: 220,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.horizontal(
-                                    left: Radius.circular(20),
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: video.poster!,
-                                    width: 130,
-                                    height: 220,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.sizeOf(context).width - 170,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          video.title!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.menu,
-                                              size: 18,
-                                            ),
-                                            ...video.genres!.map(
-                                              (e) {
-                                                String genre =
-                                                    e == video.genres!.last
-                                                        ? e
-                                                        : '$e, ';
-                                                return Text(
-                                                  genre,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                );
-                                              },
-                                            ),
-                                            const Spacer(),
-                                            const Icon(
-                                              Icons.favorite,
-                                              color: Colors.grey,
-                                              size: 18,
-                                            ),
-                                            const SizedBox(width: 3),
-                                            const Text(
-                                              '85%',
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          height: 10,
-                                          endIndent: 30,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 15,
-                                            ),
-                                            children: [
-                                              const TextSpan(
-                                                text: 'Director: ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: video.director!,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 15,
-                                            ),
-                                            children: [
-                                              const TextSpan(
-                                                text: 'Actors: ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: video.actors!,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        FittedBox(
-                                            child: Text(
-                                                'Country: ${video.country}')),
-                                        Row(
-                                          children: [
-                                            Text('Year: ${video.year}'),
-                                            const SizedBox(width: 20),
-                                            const Icon(
-                                              Icons.slow_motion_video_rounded,
-                                              size: 20,
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(video.imdbRating!),
-                                          ],
-                                        ),
-                                      ],
+                          return FadeInDown(
+                            delay: Duration(milliseconds: index * 200),
+                            from: 50,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Color(0xff23232b),
+                              ),
+                              height: 220,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.horizontal(
+                                      left: Radius.circular(20),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: video.poster!,
+                                      width: 130,
+                                      height: 220,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: SizedBox(
+                                      width:
+                                          MediaQuery.sizeOf(context).width - 170,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            video.title!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.menu,
+                                                size: 18,
+                                              ),
+                                              ...video.genres!.map(
+                                                (e) {
+                                                  String genre =
+                                                      e == video.genres!.last
+                                                          ? e
+                                                          : '$e, ';
+                                                  return Text(
+                                                    genre,
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  );
+                                                },
+                                              ),
+                                              const Spacer(),
+                                              const Icon(
+                                                Icons.favorite,
+                                                color: Colors.grey,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(width: 3),
+                                              const Text(
+                                                '85%',
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(
+                                            height: 10,
+                                            endIndent: 30,
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 15,
+                                              ),
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Director: ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: video.director!,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 15,
+                                              ),
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Actors: ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: video.actors!,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          FittedBox(
+                                              child: Text(
+                                                  'Country: ${video.country}')),
+                                          Row(
+                                            children: [
+                                              Text('Year: ${video.year}'),
+                                              const SizedBox(width: 20),
+                                              const Icon(
+                                                Icons.slow_motion_video_rounded,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(video.imdbRating!),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
