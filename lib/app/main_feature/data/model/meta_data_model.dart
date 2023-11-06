@@ -1,7 +1,7 @@
 import 'package:mini_post_video/app/main_feature/domain/entities/meta_data_entity.dart';
 
 class Metadata {
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? pageCount;
   int? totalCount;

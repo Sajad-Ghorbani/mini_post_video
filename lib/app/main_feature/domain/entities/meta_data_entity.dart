@@ -1,5 +1,5 @@
 class MetaDataEntity {
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? pageCount;
   int? totalCount;
