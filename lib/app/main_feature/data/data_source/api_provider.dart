@@ -6,7 +6,7 @@ class ApiProvider {
 
   Future getAllVideo([int page = 0]) async {
     Response response = await dio.get(
-      '$baseUrl/movies?page={$page}',
+      '$baseUrl/movies?page=$page',
       options: Options(
         responseType: ResponseType.json,
       ),
