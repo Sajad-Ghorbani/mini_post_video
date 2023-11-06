@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mini_post_video/app/config/routes/app_pages.dart';
 import 'package:mini_post_video/app/main_feature/presentation/screens/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,11 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MainScreen(),
-          ));
+      Get.offNamed(Routes.mainScreen);
     });
   }
 
