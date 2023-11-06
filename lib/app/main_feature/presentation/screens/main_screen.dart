@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mini_post_video/app/main_feature/domain/entities/video_entity.dart';
 import 'package:mini_post_video/app/main_feature/presentation/controller/main_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -11,7 +13,7 @@ class MainScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Movie App'),
         centerTitle: true,
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.black87,
       ),
       body: GetBuilder<MainController>(
         builder: (controller) {
@@ -19,112 +21,192 @@ class MainScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton.filled(
-                      onPressed: () {},
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    ),
-                    const Text(
-                      'Total Page: 25',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                if (controller.metaData != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton.filled(
+                        onPressed: () {
+                          controller.goToPrePage();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
                       ),
-                    ),
-                    IconButton.filled(
-                      onPressed: () {},
-                      icon: const Icon(Icons.arrow_forward_ios_rounded),
-                    ),
-                  ],
-                ),
+                      Text(
+                        'Current Page: ${controller.metaData!.currentPage}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Total: ${controller.metaData!.pageCount}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton.filled(
+                        onPressed: () {
+                          controller.goToNextPage();
+                        },
+                        icon: const Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                    ],
+                  ),
                 const SizedBox(height: 10),
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          color: Colors.greenAccent.withOpacity(0.2),
-                        ),
-                        height: 200,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.horizontal(
-                                left: Radius.circular(20),
-                              ),
-                              child: Image.network(
-                                'http://moviesapi.ir/images/tt0111161_poster.jpg',
-                                width: 133,
-                              ),
+                  child: Builder(
+                    builder: (context) {
+                      if (controller.showLoading == true) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } //
+                      return ListView.separated(
+                        itemCount: controller.videos.length,
+                        itemBuilder: (context, index) {
+                          VideoEntity video = controller.videos[index];
+                          return Container(
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Color(0xff23232b),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: SizedBox(
-                                width: MediaQuery.sizeOf(context).width - 173,
-                                child: const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      child: Text(
-                                        'The Shawshank Redemption',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Row(
-                                      children: [
-                                        Icon(Icons.menu),
-                                        Text('Crime, '),
-                                        Text('Drama'),
-                                        SizedBox(width: 20),
-                                        Icon(
-                                          Icons.favorite,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 3),
-                                        Text('85%'),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 10,
-                                      endIndent: 30,
-                                    ),
-                                    Text('Director: Martin Owen'),
-                                    Text(
-                                        'Actors: Arielle Prepetit, Bella-Rose Love, Bruce Cooper'),
-                                    Spacer(),
-                                    Text('Country: USA'),
-                                    Row(
-                                      children: [
-                                        Text('Year: 2023'),
-                                        SizedBox(width: 20),
-                                        Icon(
-                                          Icons.slow_motion_video_rounded,
-                                          size: 20,
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text('5.9'),
-                                      ],
-                                    ),
-                                  ],
+                            height: 220,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.horizontal(
+                                    left: Radius.circular(20),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: video.poster!,
+                                    width: 130,
+                                    height: 220,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width - 170,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          video.title!,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.menu,
+                                              size: 18,
+                                            ),
+                                            ...video.genres!.map(
+                                              (e) {
+                                                String genre =
+                                                    e == video.genres!.last
+                                                        ? e
+                                                        : '$e, ';
+                                                return Text(
+                                                  genre,
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                );
+                                              },
+                                            ),
+                                            const Spacer(),
+                                            const Icon(
+                                              Icons.favorite,
+                                              color: Colors.grey,
+                                              size: 18,
+                                            ),
+                                            const SizedBox(width: 3),
+                                            const Text(
+                                              '85%',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(
+                                          height: 10,
+                                          endIndent: 30,
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 15,
+                                            ),
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Director: ',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: video.director!,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 15,
+                                            ),
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Actors: ',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: video.actors!,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        FittedBox(
+                                            child: Text(
+                                                'Country: ${video.country}')),
+                                        Row(
+                                          children: [
+                                            Text('Year: ${video.year}'),
+                                            const SizedBox(width: 20),
+                                            const Icon(
+                                              Icons.slow_motion_video_rounded,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(video.imdbRating!),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(height: 10);
+                        },
                       );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 10);
                     },
                   ),
                 ),
